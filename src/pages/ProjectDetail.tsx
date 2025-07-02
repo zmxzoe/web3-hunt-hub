@@ -3,292 +3,262 @@ import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, ArrowUp, ExternalLink, Heart, Share2, Star } from "lucide-react";
+import { ArrowLeft, ExternalLink, Star, Globe, Code, MessageCircle, Zap, Shield, TrendingUp } from "lucide-react";
 
-// Mock project data - in a real app, this would come from an API
-const mockProjectData = {
+// Mock navigation data for Web3 projects
+const navigationData = {
   1: {
     id: 1,
-    name: "DecentraFi",
-    description: "DecentraFi is a revolutionary decentralized finance platform that enables seamless cross-chain transactions and advanced yield farming strategies. Built on cutting-edge blockchain technology, it provides users with unprecedented control over their financial assets while maintaining the highest security standards.",
-    fullDescription: `DecentraFi represents the next evolution in decentralized finance, offering a comprehensive suite of tools for modern crypto investors and DeFi enthusiasts. Our platform bridges multiple blockchains, allowing users to maximize their yield potential across various protocols.
-
-Key Features:
-- Cross-chain asset management
-- Automated yield farming strategies
-- Advanced portfolio analytics
-- Institutional-grade security
-- Community governance system
-
-The platform leverages advanced smart contracts and cutting-edge cryptographic protocols to ensure maximum security and efficiency. With support for over 20 different blockchain networks, DecentraFi is the ultimate destination for sophisticated DeFi operations.`,
-    votes: 245,
-    tags: ["DeFi", "Cross-chain", "Yield Farming"],
-    images: [
-      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
-    ],
-    category: "DeFi",
-    website: "https://decentrafi.example.com",
-    twitter: "https://twitter.com/decentrafi",
-    discord: "https://discord.gg/decentrafi",
-    github: "https://github.com/decentrafi",
-    team: [
-      { name: "Alice Chen", role: "CEO & Founder", avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=100&h=100&fit=crop&crop=face" },
-      { name: "Bob Smith", role: "CTO", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" },
-      { name: "Carol Johnson", role: "Lead Developer", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" }
-    ],
-    stats: {
-      totalValueLocked: "$2.4M",
-      activeUsers: "1,250",
-      transactions: "45,678"
-    },
-    launchDate: "2024年3月15日"
+    name: "Web3 生态导航",
+    description: "发现最新最热的Web3项目和工具",
+    categories: [
+      {
+        name: "DeFi 协议",
+        description: "去中心化金融协议和平台",
+        icon: TrendingUp,
+        links: [
+          { name: "Uniswap", url: "https://uniswap.org", description: "领先的去中心化交易所", tags: ["DEX", "AMM"] },
+          { name: "Aave", url: "https://aave.com", description: "去中心化借贷协议", tags: ["Lending", "Borrowing"] },
+          { name: "Compound", url: "https://compound.finance", description: "算法货币市场协议", tags: ["Lending", "Interest"] },
+          { name: "MakerDAO", url: "https://makerdao.com", description: "去中心化稳定币协议", tags: ["Stablecoin", "DAI"] },
+          { name: "Curve Finance", url: "https://curve.fi", description: "稳定币交易优化平台", tags: ["Stablecoins", "DEX"] }
+        ]
+      },
+      {
+        name: "NFT 市场",
+        description: "数字收藏品和NFT交易平台",
+        icon: Star,
+        links: [
+          { name: "OpenSea", url: "https://opensea.io", description: "最大的NFT市场", tags: ["Marketplace", "Trading"] },
+          { name: "Blur", url: "https://blur.io", description: "专业NFT交易平台", tags: ["Pro Trading", "Aggregator"] },
+          { name: "Magic Eden", url: "https://magiceden.io", description: "Solana生态NFT市场", tags: ["Solana", "Multi-chain"] },
+          { name: "Foundation", url: "https://foundation.app", description: "策展式艺术NFT平台", tags: ["Art", "Curated"] },
+          { name: "SuperRare", url: "https://superrare.com", description: "数字艺术收藏平台", tags: ["Digital Art", "Collectibles"] }
+        ]
+      },
+      {
+        name: "开发工具",
+        description: "Web3开发必备工具和服务",
+        icon: Code,
+        links: [
+          { name: "Alchemy", url: "https://alchemy.com", description: "区块链开发平台", tags: ["API", "Infrastructure"] },
+          { name: "Infura", url: "https://infura.io", description: "以太坊节点服务", tags: ["Nodes", "Ethereum"] },
+          { name: "Hardhat", url: "https://hardhat.org", description: "以太坊开发环境", tags: ["Development", "Testing"] },
+          { name: "Truffle", url: "https://trufflesuite.com", description: "智能合约开发框架", tags: ["Smart Contracts", "Testing"] },
+          { name: "Remix", url: "https://remix.ethereum.org", description: "在线智能合约IDE", tags: ["IDE", "Online"] }
+        ]
+      },
+      {
+        name: "钱包工具",
+        description: "数字资产管理和存储解决方案",
+        icon: Shield,
+        links: [
+          { name: "MetaMask", url: "https://metamask.io", description: "最受欢迎的以太坊钱包", tags: ["Browser", "Mobile"] },
+          { name: "WalletConnect", url: "https://walletconnect.com", description: "钱包连接协议", tags: ["Protocol", "Integration"] },
+          { name: "Coinbase Wallet", url: "https://wallet.coinbase.com", description: "Coinbase自托管钱包", tags: ["Self-custody", "Mobile"] },
+          { name: "Trust Wallet", url: "https://trustwallet.com", description: "多链移动钱包", tags: ["Multi-chain", "Mobile"] },
+          { name: "Phantom", url: "https://phantom.app", description: "Solana生态钱包", tags: ["Solana", "Browser"] }
+        ]
+      },
+      {
+        name: "Layer 2",
+        description: "以太坊扩容解决方案",
+        icon: Zap,
+        links: [
+          { name: "Polygon", url: "https://polygon.technology", description: "以太坊扩容平台", tags: ["Scaling", "Sidechain"] },
+          { name: "Arbitrum", url: "https://arbitrum.io", description: "乐观型Rollup解决方案", tags: ["Rollup", "Optimistic"] },
+          { name: "Optimism", url: "https://optimism.io", description: "以太坊Layer 2网络", tags: ["Rollup", "OP Stack"] },
+          { name: "zkSync", url: "https://zksync.io", description: "零知识证明Rollup", tags: ["ZK", "Rollup"] },
+          { name: "StarkNet", url: "https://starknet.io", description: "零知识证明Layer 2", tags: ["ZK-STARK", "Cairo"] }
+        ]
+      },
+      {
+        name: "社区论坛",
+        description: "Web3社区讨论和学习平台",
+        icon: MessageCircle,
+        links: [
+          { name: "Mirror", url: "https://mirror.xyz", description: "去中心化内容发布平台", tags: ["Writing", "Publishing"] },
+          { name: "Farcaster", url: "https://farcaster.xyz", description: "去中心化社交协议", tags: ["Social", "Protocol"] },
+          { name: "Lens Protocol", url: "https://lens.xyz", description: "Web3社交媒体协议", tags: ["Social Graph", "NFT"] },
+          { name: "CyberConnect", url: "https://cyberconnect.me", description: "去中心化社交网络", tags: ["Social", "Identity"] },
+          { name: "Discord", url: "https://discord.com", description: "最大的Web3社区平台", tags: ["Chat", "Community"] }
+        ]
+      }
+    ]
   }
 };
 
 const ProjectDetail = () => {
   const { id } = useParams();
-  const [hasVoted, setHasVoted] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
-  const project = id ? mockProjectData[Number(id) as keyof typeof mockProjectData] : undefined;
+  const project = id ? navigationData[Number(id) as keyof typeof navigationData] : undefined;
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gradient-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">项目未找到</h1>
+          <h1 className="text-2xl font-bold mb-4">导航站未找到</h1>
           <Link to="/">
-            <Button variant="gradient">返回首页</Button>
+            <Button variant="default">返回首页</Button>
           </Link>
         </div>
       </div>
     );
   }
 
-  const handleVote = () => {
-    setHasVoted(!hasVoted);
-    // In a real app, this would send a request to the backend
-  };
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: project.name,
-        text: project.description,
-        url: window.location.href,
-      });
-    } else {
-      // Fallback to clipboard
-      navigator.clipboard.writeText(window.location.href);
-    }
-  };
+  const currentCategory = project.categories[selectedCategory];
 
   return (
-    <div className="min-h-screen bg-gradient-background">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
+      <header className="border-b border-border bg-background">
+        <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2 text-foreground/80 hover:text-foreground transition-colors">
               <ArrowLeft className="h-4 w-4" />
-              <span>返回项目列表</span>
+              <span>返回首页</span>
             </Link>
             
             <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm" onClick={handleShare}>
-                <Share2 className="h-4 w-4" />
-                分享
-              </Button>
-              <Button 
-                variant={hasVoted ? "secondary" : "gradient"} 
-                onClick={handleVote}
-                className="flex items-center gap-2"
-              >
-                <ArrowUp className="h-4 w-4" />
-                {hasVoted ? "已投票" : "投票支持"} ({project.votes + (hasVoted ? 1 : 0)})
+              <Button variant="outline" size="sm">
+                <Star className="h-4 w-4 mr-2" />
+                收藏导航
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Project Header */}
-            <div className="space-y-4">
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-              
-              <h1 className="text-4xl font-bold">{project.name}</h1>
-              <p className="text-xl text-muted-foreground">{project.description}</p>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Page Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
+            {project.name}
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            {project.description}
+          </p>
+        </div>
 
-            {/* Image Gallery */}
-            <Card className="bg-card/50 border-border">
-              <CardContent className="p-0">
-                <div className="relative">
-                  <img 
-                    src={project.images[currentImageIndex]} 
-                    alt={`${project.name} 截图 ${currentImageIndex + 1}`}
-                    className="w-full h-96 object-cover rounded-lg"
-                  />
-                  {project.images.length > 1 && (
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                      {project.images.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setCurrentImageIndex(index)}
-                          className={`w-3 h-3 rounded-full transition-colors ${
-                            index === currentImageIndex ? 'bg-primary' : 'bg-white/50'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Project Description */}
-            <Card className="bg-card/50 border-border">
-              <CardHeader>
-                <CardTitle>项目介绍</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="prose prose-invert max-w-none">
-                  {project.fullDescription.split('\n\n').map((paragraph, index) => (
-                    <p key={index} className="mb-4 text-foreground/90 leading-relaxed">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Team */}
-            <Card className="bg-card/50 border-border">
-              <CardHeader>
-                <CardTitle>团队成员</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                  {project.team.map((member, index) => (
-                    <div key={index} className="flex items-center space-x-3 p-3 rounded-lg bg-background/50">
-                      <img 
-                        src={member.avatar} 
-                        alt={member.name}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                      <div>
-                        <h4 className="font-medium">{member.name}</h4>
-                        <p className="text-sm text-muted-foreground">{member.role}</p>
+        <div className="flex gap-8">
+          {/* Category Sidebar */}
+          <div className="w-64 space-y-2">
+            <h3 className="font-semibold text-lg mb-4">分类导航</h3>
+            {project.categories.map((category, index) => {
+              const IconComponent = category.icon;
+              return (
+                <button
+                  key={index}
+                  onClick={() => setSelectedCategory(index)}
+                  className={`w-full p-4 rounded-lg text-left transition-colors ${
+                    selectedCategory === index 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'bg-card hover:bg-card/80 border border-border'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <IconComponent className="h-5 w-5" />
+                    <div>
+                      <div className="font-medium">{category.name}</div>
+                      <div className={`text-sm ${
+                        selectedCategory === index ? 'text-primary-foreground/80' : 'text-muted-foreground'
+                      }`}>
+                        {category.description}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </div>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Project Stats */}
-            <Card className="bg-card/50 border-border">
-              <CardHeader>
-                <CardTitle>项目数据</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">总锁定价值</span>
-                  <span className="font-medium">{project.stats.totalValueLocked}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">活跃用户</span>
-                  <span className="font-medium">{project.stats.activeUsers}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">交易笔数</span>
-                  <span className="font-medium">{project.stats.transactions}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">发布日期</span>
-                  <span className="font-medium">{project.launchDate}</span>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Main Content */}
+          <div className="flex-1">
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-2">
+                <currentCategory.icon className="h-6 w-6 text-primary" />
+                <h2 className="text-2xl font-bold">{currentCategory.name}</h2>
+              </div>
+              <p className="text-muted-foreground">{currentCategory.description}</p>
+            </div>
 
-            {/* Links */}
-            <Card className="bg-card/50 border-border">
-              <CardHeader>
-                <CardTitle>相关链接</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <a 
-                  href={project.website} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg bg-background/50 hover:bg-background/70 transition-colors"
-                >
-                  <span>官方网站</span>
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-                <a 
-                  href={project.twitter} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg bg-background/50 hover:bg-background/70 transition-colors"
-                >
-                  <span>Twitter</span>
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-                <a 
-                  href={project.discord} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg bg-background/50 hover:bg-background/70 transition-colors"
-                >
-                  <span>Discord</span>
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-                <a 
-                  href={project.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-lg bg-background/50 hover:bg-background/70 transition-colors"
-                >
-                  <span>GitHub</span>
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </CardContent>
-            </Card>
+            {/* Links Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {currentCategory.links.map((link, index) => (
+                <Card key={index} className="group hover:border-primary/50 transition-all duration-200 hover:shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <Globe className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                            {link.name}
+                          </h3>
+                        </div>
+                      </div>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </div>
+                    
+                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
+                      {link.description}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {link.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                      asChild
+                    >
+                      <a href={link.url} target="_blank" rel="noopener noreferrer">
+                        访问网站
+                        <ExternalLink className="h-3 w-3 ml-2" />
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-            {/* Action Buttons */}
-            <div className="space-y-3">
-              <Button variant="gradient" className="w-full" size="lg">
-                <Heart className="h-4 w-4" />
-                收藏项目
-              </Button>
-              <Button variant="outline" className="w-full">
-                <Star className="h-4 w-4" />
-                添加到观察列表
-              </Button>
+            {/* Category Stats */}
+            <div className="mt-8 p-6 bg-card rounded-lg border border-border">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-semibold">当前分类统计</h4>
+                  <p className="text-muted-foreground text-sm">
+                    共收录 {currentCategory.links.length} 个优质项目
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-primary">
+                    {currentCategory.links.length}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    项目
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
