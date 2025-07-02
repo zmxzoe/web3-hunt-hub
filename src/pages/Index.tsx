@@ -255,26 +255,12 @@ const Index = () => {
 
             {/* Submit Project Button */}
             <div className="mt-8">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full py-6 text-base">
-                    <Plus className="h-5 w-5 mr-2" />
-                    Submit your product
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Submit New Product</DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <Input placeholder="Product name" />
-                    <Textarea placeholder="Product description" />
-                    <Input placeholder="Product website" />
-                    <Input placeholder="Tags (comma separated)" />
-                    <Button className="w-full">Submit Product</Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <Link to="/submit">
+                <Button variant="outline" className="w-full py-6 text-base">
+                  <Plus className="h-5 w-5 mr-2" />
+                  Submit your product
+                </Button>
+              </Link>
             </div>
           </div>
 
