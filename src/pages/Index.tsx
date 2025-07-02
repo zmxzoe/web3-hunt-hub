@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUp, Plus, Search, MessageCircle, X, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -134,11 +132,16 @@ const Index = () => {
             
             {/* Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              <Button variant="ghost" className="text-foreground/80">Launches</Button>
-              <Button variant="ghost" className="text-foreground/80">Products</Button>
-              <Button variant="ghost" className="text-foreground/80">News</Button>
-              <Button variant="ghost" className="text-foreground/80">Forums</Button>
-              <Button variant="ghost" className="text-foreground/80">Advertise</Button>
+              <Button variant="ghost" className="text-primary font-medium">Launches</Button>
+              <Button variant="ghost" className="text-foreground/80" asChild>
+                <Link to="/products">Products</Link>
+              </Button>
+              <Button variant="ghost" className="text-foreground/80" asChild>
+                <Link to="/resources">Resources</Link>
+              </Button>
+              <Button variant="ghost" className="text-foreground/80" asChild>
+                <Link to="/jobs">Jobs</Link>
+              </Button>
             </nav>
             
             {/* Right Actions */}
@@ -147,23 +150,9 @@ const Index = () => {
                 <Bell className="h-4 w-4" />
                 Subscribe
               </Button>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="default" size="sm" className="bg-primary text-primary-foreground">
-                    Sign in
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Sign in</DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <Input placeholder="Email" />
-                    <Input placeholder="Password" type="password" />
-                    <Button className="w-full">Sign in</Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <Button variant="default" size="sm">
+                Sign in
+              </Button>
             </div>
           </div>
         </div>
@@ -180,9 +169,9 @@ const Index = () => {
                 </svg>
               </div>
               <div>
-                <span className="font-medium">Welcome to Product Hunt!</span>
+                <span className="font-medium">Welcome to Web3Hunt!</span>
                 <span className="text-muted-foreground ml-2">
-                  The place to launch and discover new tech products. 
+                  The place to discover and launch new Web3 products. 
                   <span className="text-primary cursor-pointer hover:underline ml-1">Take a tour.</span>
                 </span>
               </div>
