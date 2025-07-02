@@ -115,9 +115,9 @@ const Index = () => {
             <div className="flex items-center space-x-8">
               {/* Logo */}
               <div className="flex items-center">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-sm">P</span>
-                </div>
+                <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                  Web3Hunt
+                </h1>
               </div>
               
               {/* Search */}
