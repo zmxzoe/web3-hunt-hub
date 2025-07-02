@@ -4,362 +4,337 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ArrowUp, Plus, Search, Wallet } from "lucide-react";
+import { ArrowUp, Plus, Search, MessageCircle, X, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Mock data for projects
 const mockProjects = [
   {
     id: 1,
-    name: "DecentraFi",
-    description: "Decentralized finance platform for seamless cross-chain transactions and yield farming",
-    votes: 245,
-    tags: ["DeFi", "Cross-chain", "Yield Farming"],
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop",
-    category: "DeFi",
+    name: "Portia AI",
+    description: "Secure AI agents with tools, auth, and smart control",
+    votes: 389,
+    comments: 37,
+    tags: ["Developer Tools", "Artificial Intelligence", "GitHub"],
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=64&h=64&fit=crop",
+    category: "AI",
     isToday: true
   },
   {
     id: 2,
-    name: "NFT Marketplace Pro",
-    description: "Next-generation NFT marketplace with advanced trading features and creator tools",
-    votes: 189,
-    tags: ["NFT", "Marketplace", "Creator Tools"],
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop",
-    category: "NFT",
-    isToday: false
+    name: "Lazy 2.0",
+    description: "One shortcut to capture & chat with your notes, everywhere",
+    votes: 298,
+    comments: 16,
+    tags: ["Productivity", "Notes", "Artificial Intelligence"],
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=64&h=64&fit=crop",
+    category: "Productivity",
+    isToday: true
   },
   {
     id: 3,
-    name: "Web3 Social",
-    description: "Decentralized social media platform with token-based governance and content monetization",
-    votes: 167,
-    tags: ["Social", "Governance", "Monetization"],
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=300&fit=crop",
-    category: "Social",
+    name: "String.com",
+    description: "AI agent for building AI agents",
+    votes: 249,
+    comments: 21,
+    tags: ["Productivity", "Developer Tools", "Artificial Intelligence"],
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=64&h=64&fit=crop",
+    category: "AI",
     isToday: true
   },
   {
     id: 4,
-    name: "Chain Analytics",
-    description: "Real-time blockchain analytics and DeFi protocol monitoring dashboard",
-    votes: 134,
-    tags: ["Analytics", "Monitoring", "Dashboard"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-    category: "Analytics",
-    isToday: false
+    name: "Nothing Phone (3)",
+    description: "Beyond lights, with the new Glyph Matrix",
+    votes: 217,
+    comments: 14,
+    tags: ["Hardware", "UX Design"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop",
+    category: "Hardware",
+    isToday: true
   },
   {
     id: 5,
     name: "MetaVerse Builder",
-    description: "No-code platform for creating immersive metaverse experiences and virtual worlds",
-    votes: 298,
+    description: "No-code platform for creating immersive metaverse experiences",
+    votes: 185,
+    comments: 22,
     tags: ["Metaverse", "No-code", "VR/AR"],
-    image: "https://images.unsplash.com/photo-1592478411213-6153e4ebc696?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1592478411213-6153e4ebc696?w=64&h=64&fit=crop",
     category: "Metaverse",
     isToday: true
+  }
+];
+
+// Mock forum threads
+const forumThreads = [
+  {
+    id: 1,
+    author: "p/orbstack",
+    title: "orbstack > docker desktop",
+    upvotes: 0,
+    comments: 0
   },
   {
-    id: 6,
-    name: "CryptoWallet Pro",
-    description: "Multi-chain wallet with advanced security features and DeFi integration",
-    votes: 223,
-    tags: ["Wallet", "Security", "Multi-chain"],
-    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&h=300&fit=crop",
-    category: "Infrastructure",
-    isToday: false
+    id: 2,
+    author: "p/claude",
+    title: "What's the weirdest thing you've asked AI to do? Examples welcome 🤖",
+    upvotes: 10,
+    comments: 3
   },
   {
-    id: 7,
-    name: "DAO Governance Hub",
-    description: "Comprehensive DAO management platform with voting, treasury, and proposal systems",
-    votes: 156,
-    tags: ["DAO", "Governance", "Treasury"],
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=300&fit=crop",
-    category: "DAO",
-    isToday: true
+    id: 3,
+    author: "p/appreply",
+    title: "NEW: Auto-Translate app reviews in 100+ languages",
+    upvotes: 1,
+    comments: 0
   },
   {
-    id: 8,
-    name: "DeFi Yield Optimizer",
-    description: "AI-powered yield farming optimization across multiple DeFi protocols",
-    votes: 201,
-    tags: ["DeFi", "AI", "Yield Optimization"],
-    image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=400&h=300&fit=crop",
-    category: "DeFi",
-    isToday: false
-  },
-  {
-    id: 9,
-    name: "NFT Creator Studio",
-    description: "All-in-one platform for creating, minting, and selling NFTs with AI assistance",
-    votes: 178,
-    tags: ["NFT", "Creator Tools", "AI"],
-    image: "https://images.unsplash.com/photo-1618172193622-ae2d025f4032?w=400&h=300&fit=crop",
-    category: "NFT",
-    isToday: true
-  },
-  {
-    id: 10,
-    name: "Cross-Chain Bridge",
-    description: "Secure and fast cross-chain asset transfer protocol with minimal fees",
-    votes: 267,
-    tags: ["Bridge", "Cross-chain", "Security"],
-    image: "https://images.unsplash.com/photo-1639762681057-408e52192e55?w=400&h=300&fit=crop",
-    category: "Infrastructure",
-    isToday: false
-  },
-  {
-    id: 11,
-    name: "Web3 Learning Hub",
-    description: "Interactive learning platform for Web3 development with hands-on tutorials",
-    votes: 142,
-    tags: ["Education", "Development", "Tutorials"],
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop",
-    category: "Education",
-    isToday: true
-  },
-  {
-    id: 12,
-    name: "GameFi Universe",
-    description: "Play-to-earn gaming ecosystem with NFT rewards and token economics",
-    votes: 312,
-    tags: ["GameFi", "P2E", "NFT Rewards"],
-    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=300&fit=crop",
-    category: "GameFi",
-    isToday: true
+    id: 4,
+    author: "p/crowd-3",
+    title: "Quick reminder that we have an affiliate program (and it's actually pretty good)",
+    upvotes: 0,
+    comments: 0
   }
 ];
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
-
-  const categories = ["All", "DeFi", "NFT", "Social", "Analytics", "Infrastructure", "Metaverse", "DAO", "Education", "GameFi"];
-  
-  const todayProjects = mockProjects.filter(project => project.isToday).sort((a, b) => b.votes - a.votes);
-
-  const filteredProjects = mockProjects.filter(project => {
-    const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || project.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const [showWelcome, setShowWelcome] = useState(true);
 
   const handleVote = (projectId: number) => {
-    // In a real app, this would update the vote count in the backend
     console.log(`Voted for project ${projectId}`);
   };
 
-  const handleWalletConnect = () => {
-    // In a real app, this would integrate with wallet providers like MetaMask
-    setIsWalletConnected(!isWalletConnected);
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-background">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
+      <header className="border-b border-border bg-background">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Web3Hunt
-              </h1>
-              <nav className="hidden md:flex space-x-6">
-                <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">今日推荐</a>
-                <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">热门项目</a>
-                <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">分类浏览</a>
-              </nav>
+            <div className="flex items-center space-x-8">
+              {/* Logo */}
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-sm">P</span>
+                </div>
+              </div>
+              
+              {/* Search */}
+              <div className="relative max-w-sm">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search ( ctrl + k )" 
+                  className="pl-10 w-80 bg-muted/30"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
             
+            {/* Navigation */}
+            <nav className="hidden md:flex items-center space-x-6">
+              <Button variant="ghost" className="text-foreground/80">Launches</Button>
+              <Button variant="ghost" className="text-foreground/80">Products</Button>
+              <Button variant="ghost" className="text-foreground/80">News</Button>
+              <Button variant="ghost" className="text-foreground/80">Forums</Button>
+              <Button variant="ghost" className="text-foreground/80">Advertise</Button>
+            </nav>
+            
+            {/* Right Actions */}
             <div className="flex items-center space-x-3">
+              <Button variant="ghost" size="sm">
+                <Bell className="h-4 w-4" />
+                Subscribe
+              </Button>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="gradient" className="hidden sm:flex">
-                    <Plus className="h-4 w-4" />
-                    提交项目
+                  <Button variant="default" size="sm" className="bg-primary text-primary-foreground">
+                    Sign in
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-card border-border">
+                <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>提交新项目</DialogTitle>
+                    <DialogTitle>Sign in</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
-                    <Input placeholder="项目名称" />
-                    <Textarea placeholder="项目描述" />
-                    <Input placeholder="项目网址" />
-                    <Input placeholder="标签 (用逗号分隔)" />
-                    <Button className="w-full" variant="gradient">提交项目</Button>
+                    <Input placeholder="Email" />
+                    <Input placeholder="Password" type="password" />
+                    <Button className="w-full">Sign in</Button>
                   </div>
                 </DialogContent>
               </Dialog>
-              
-              <Button 
-                variant={isWalletConnected ? "secondary" : "wallet"} 
-                onClick={handleWalletConnect}
-                className="flex items-center gap-2"
-              >
-                <Wallet className="h-4 w-4" />
-                {isWalletConnected ? "已连接" : "连接钱包"}
-              </Button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input 
-              placeholder="搜索项目..." 
-              className="pl-10"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* Welcome Banner */}
+        {showWelcome && (
+          <div className="bg-accent/50 border border-border rounded-lg p-4 mb-6 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-6 h-6 text-primary">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <div>
+                <span className="font-medium">Welcome to Product Hunt!</span>
+                <span className="text-muted-foreground ml-2">
+                  The place to launch and discover new tech products. 
+                  <span className="text-primary cursor-pointer hover:underline ml-1">Take a tour.</span>
+                </span>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={() => setShowWelcome(false)}>
+              <X className="h-4 w-4" />
+            </Button>
           </div>
-          
-          <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <Badge
-                key={category}
-                variant={selectedCategory === category ? "default" : "secondary"}
-                className="cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </Badge>
-            ))}
-          </div>
-        </div>
+        )}
 
-        {/* Today's Hot Projects */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-2xl font-bold">🔥 今日热门</h2>
-            <Badge variant="gradient" className="bg-gradient-primary text-primary-foreground">
-              TOP {todayProjects.length}
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {todayProjects.slice(0, 4).map((project, index) => (
-              <Card key={project.id} className="group bg-card/50 border-border hover:border-primary/50 transition-all duration-300 hover:shadow-card animate-fade-in">
-                <CardHeader className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
+        <div className="flex gap-8">
+          {/* Main Content */}
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold mb-6">Top Products Launching Today</h1>
+            
+            {/* Products List */}
+            <div className="space-y-4">
+              {mockProjects.map((project, index) => (
+                <div key={project.id} className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border hover:border-border/80 transition-colors">
+                  {/* Left: Rank and Logo */}
+                  <div className="flex items-center gap-3 min-w-[80px]">
+                    <span className="text-lg font-medium text-muted-foreground w-6">
+                      {index + 1}.
+                    </span>
                     <img 
                       src={project.image} 
                       alt={project.name}
-                      className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-10 h-10 rounded-lg object-cover"
                     />
-                    <div className="absolute top-2 left-2">
-                      <Badge variant="default" className="bg-primary text-primary-foreground text-xs">
-                        #{index + 1}
-                      </Badge>
-                    </div>
-                    <div className="absolute top-2 right-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => handleVote(project.id)}
-                        className="bg-background/80 backdrop-blur-sm hover:bg-background/90 h-8 px-2 text-xs"
-                      >
-                        <ArrowUp className="h-3 w-3" />
-                        {project.votes}
-                      </Button>
+                  </div>
+                  
+                  {/* Middle: Content */}
+                  <div className="flex-1">
+                    <Link to={`/project/${project.id}`}>
+                      <h3 className="font-semibold text-lg hover:text-primary transition-colors mb-1">
+                        {project.name}
+                      </h3>
+                    </Link>
+                    <p className="text-muted-foreground text-sm mb-2">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
+                          {tag}
+                        </Badge>
+                      ))}
                     </div>
                   </div>
-                </CardHeader>
-                
-                <CardContent className="p-4">
-                  <Link to={`/project/${project.id}`}>
-                    <h3 className="font-semibold mb-2 hover:text-primary transition-colors text-sm">
-                      {project.name}
-                    </h3>
-                  </Link>
-                  <p className="text-muted-foreground text-xs line-clamp-2 mb-3">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1">
-                    {project.tags.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs px-1 py-0">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* All Projects */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-6">所有项目</h2>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => (
-            <Card key={project.id} className="group bg-card/50 border-border hover:border-primary/50 transition-all duration-300 hover:shadow-card animate-fade-in">
-              <CardHeader className="p-0">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <img 
-                    src={project.image} 
-                    alt={project.name}
-                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <Button
-                      size="sm"
-                      variant="secondary"
+                  
+                  {/* Right: Stats */}
+                  <div className="flex items-center gap-4 min-w-[120px] justify-end">
+                    <Button variant="ghost" size="sm" className="text-muted-foreground">
+                      <MessageCircle className="h-4 w-4 mr-1" />
+                      {project.comments}
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
                       onClick={() => handleVote(project.id)}
-                      className="bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                      className="flex flex-col items-center gap-1 h-auto py-2 px-3 hover:bg-accent"
                     >
-                      <ArrowUp className="h-3 w-3" />
-                      {project.votes}
+                      <ArrowUp className="h-4 w-4" />
+                      <span className="text-sm font-medium">{project.votes}</span>
                     </Button>
                   </div>
                 </div>
-              </CardHeader>
-              
-              <CardContent className="p-6">
-                <Link to={`/project/${project.id}`}>
-                  <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">
-                    {project.name}
-                  </h3>
-                </Link>
-                <p className="text-muted-foreground mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              ))}
+            </div>
 
-        {/* Empty State */}
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-lg font-medium text-muted-foreground mb-2">
-              没有找到匹配的项目
-            </h3>
-            <p className="text-muted-foreground">
-              尝试调整搜索条件或浏览不同的分类
-            </p>
+            {/* Submit Project Button */}
+            <div className="mt-8">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="w-full py-6 text-base">
+                    <Plus className="h-5 w-5 mr-2" />
+                    Submit your product
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Submit New Product</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <Input placeholder="Product name" />
+                    <Textarea placeholder="Product description" />
+                    <Input placeholder="Product website" />
+                    <Input placeholder="Tags (comma separated)" />
+                    <Button className="w-full">Submit Product</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
-        )}
-      </main>
+
+          {/* Sidebar */}
+          <div className="w-80 space-y-6">
+            {/* Trending Forum Threads */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-semibold">Trending Forum Threads</h2>
+                <Button variant="ghost" size="sm" className="text-primary">
+                  View all
+                </Button>
+              </div>
+              
+              <div className="space-y-3">
+                {forumThreads.map((thread) => (
+                  <div key={thread.id} className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-primary rounded-sm flex items-center justify-center">
+                        <span className="text-xs text-primary-foreground font-bold">
+                          {thread.author.split('/')[1][0].toUpperCase()}
+                        </span>
+                      </div>
+                      <span className="text-xs text-primary font-medium">{thread.author}</span>
+                    </div>
+                    
+                    <h4 className="text-sm font-medium leading-tight">
+                      {thread.title}
+                    </h4>
+                    
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                      <Button variant="ghost" size="sm" className="h-auto p-0 text-xs">
+                        <ArrowUp className="h-3 w-3 mr-1" />
+                        Upvote {thread.upvotes > 0 && `(${thread.upvotes})`}
+                      </Button>
+                      <span>{thread.comments} comments</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <Button variant="outline" size="sm" className="w-full mt-4">
+                <Plus className="h-4 w-4 mr-2" />
+                Start new thread
+              </Button>
+            </div>
+
+            {/* Ad Space */}
+            <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg p-6 text-white">
+              <h3 className="font-bold text-lg mb-2">Airtable</h3>
+              <p className="text-sm opacity-90 mb-4">
+                6 predictions for product teams in 2025
+              </p>
+              <Button variant="secondary" size="sm" className="bg-white text-black hover:bg-gray-100">
+                Learn more
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
