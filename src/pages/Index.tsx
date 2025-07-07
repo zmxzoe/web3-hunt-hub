@@ -50,7 +50,7 @@ const mockProjects = [
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=64&h=64&fit=crop",
     category: "Consumer Applications",
     stage: "Live",
-    createdAt: new Date(Date.now() - 86400000), // Yesterday
+    createdAt: new Date(Date.now() - 86400000),
     timeFilter: "Yesterday"
   },
   {
@@ -76,7 +76,7 @@ const mockProjects = [
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop",
     category: "DeFi",
     stage: "Beta",
-    createdAt: new Date(Date.now() - 172800000), // 2 days ago
+    createdAt: new Date(Date.now() - 172800000),
     timeFilter: "This Week"
   },
   {
@@ -102,7 +102,7 @@ const mockProjects = [
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=64&h=64&fit=crop",
     category: "NFT & Creator Economy",
     stage: "Live",
-    createdAt: new Date(Date.now() - 259200000), // 3 days ago
+    createdAt: new Date(Date.now() - 259200000),
     timeFilter: "This Week"
   },
   {
@@ -115,7 +115,7 @@ const mockProjects = [
     image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=64&h=64&fit=crop",
     category: "DAO & Community",
     stage: "Alpha",
-    createdAt: new Date(Date.now() - 86400000), // Yesterday
+    createdAt: new Date(Date.now() - 86400000),
     timeFilter: "Yesterday"
   },
   {
@@ -130,6 +130,136 @@ const mockProjects = [
     stage: "Idea",
     createdAt: new Date(),
     timeFilter: "Today"
+  },
+  {
+    id: 9,
+    name: "Web3 Analytics Pro",
+    description: "Real-time blockchain data analytics and insights platform",
+    votes: 203,
+    comments: 25,
+    tags: ["Analytics", "Blockchain", "Data"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop",
+    category: "Data & Analytics",
+    stage: "Live",
+    createdAt: new Date(),
+    timeFilter: "Today"
+  },
+  {
+    id: 10,
+    name: "Layer2 Bridge",
+    description: "Seamless cross-chain asset transfers with minimal fees",
+    votes: 178,
+    comments: 19,
+    tags: ["Layer2", "Bridge", "DeFi"],
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=64&h=64&fit=crop",
+    category: "Infrastructure",
+    stage: "Beta",
+    createdAt: new Date(),
+    timeFilter: "Today"
+  },
+  {
+    id: 11,
+    name: "Creator Token Studio",
+    description: "Easily mint and manage creator economy tokens",
+    votes: 145,
+    comments: 16,
+    tags: ["Creator", "Tokens", "Economy"],
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=64&h=64&fit=crop",
+    category: "NFT & Creator Economy",
+    stage: "Alpha",
+    createdAt: new Date(),
+    timeFilter: "Today"
+  },
+  {
+    id: 12,
+    name: "AI Trading Bot",
+    description: "Intelligent automated trading for DeFi protocols",
+    votes: 167,
+    comments: 14,
+    tags: ["AI", "Trading", "DeFi"],
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=64&h=64&fit=crop",
+    category: "AI x Web3",
+    stage: "Live",
+    createdAt: new Date(Date.now() - 86400000),
+    timeFilter: "Yesterday"
+  },
+  {
+    id: 13,
+    name: "Blockchain Game Engine",
+    description: "Revolutionary game development toolkit for Web3 games",
+    votes: 98,
+    comments: 11,
+    tags: ["Gaming", "Engine", "Development"],
+    image: "https://images.unsplash.com/photo-1592478411213-6153e4ebc696?w=64&h=64&fit=crop",
+    category: "Gaming & Metaverse",
+    stage: "Idea",
+    createdAt: new Date(),
+    timeFilter: "Today"
+  },
+  {
+    id: 14,
+    name: "Decentralized Cloud Storage",
+    description: "Secure, distributed file storage solution",
+    votes: 189,
+    comments: 23,
+    tags: ["Storage", "Cloud", "Decentralized"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop",
+    category: "Infrastructure",
+    stage: "Beta",
+    createdAt: new Date(Date.now() - 86400000),
+    timeFilter: "Yesterday"
+  },
+  {
+    id: 15,
+    name: "Smart Contract Auditor",
+    description: "AI-powered smart contract security analysis",
+    votes: 156,
+    comments: 18,
+    tags: ["Security", "Auditing", "Smart Contracts"],
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=64&h=64&fit=crop",
+    category: "Developer Tools",
+    stage: "Live",
+    createdAt: new Date(),
+    timeFilter: "Today"
+  },
+  {
+    id: 16,
+    name: "Community Rewards Platform",
+    description: "Tokenized rewards system for online communities",
+    votes: 87,
+    comments: 9,
+    tags: ["Community", "Rewards", "Tokens"],
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=64&h=64&fit=crop",
+    category: "DAO & Community",
+    stage: "Idea",
+    createdAt: new Date(),
+    timeFilter: "Today"
+  },
+  {
+    id: 17,
+    name: "Zero-Knowledge Voting",
+    description: "Private and verifiable voting system using ZK proofs",
+    votes: 134,
+    comments: 15,
+    tags: ["Privacy", "Voting", "ZK-Proofs"],
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=64&h=64&fit=crop",
+    category: "Privacy & Security",
+    stage: "Alpha",
+    createdAt: new Date(Date.now() - 86400000),
+    timeFilter: "Yesterday"
+  },
+  {
+    id: 18,
+    name: "DeFi Portfolio Tracker",
+    description: "Track all your DeFi investments in one dashboard",
+    votes: 178,
+    comments: 20,
+    tags: ["DeFi", "Portfolio", "Tracking"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop",
+    category: "Consumer Applications",
+    stage: "Live",
+    createdAt: new Date(),
+    timeFilter: "Today"
   }
 ];
 
@@ -140,6 +270,9 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedStage, setSelectedStage] = useState("All");
   const [selectedTimeFilter, setSelectedTimeFilter] = useState("Today");
+  const [showMoreLive, setShowMoreLive] = useState(false);
+  const [showMoreTesting, setShowMoreTesting] = useState(false);
+  const [showMoreIdeas, setShowMoreIdeas] = useState(false);
 
   const handleVote = (projectId: number) => {
     console.log(`Voted for project ${projectId}`);
@@ -267,6 +400,7 @@ const Index = () => {
                          project.description.toLowerCase().includes(searchTerm.toLowerCase()))
                       )
                       .sort((a, b) => b.votes - a.votes)
+                      .slice(0, showMoreLive ? undefined : 6)
                       .map((project, index) => (
                         <div key={project.id} className="p-4 bg-card rounded-lg border border-green-200 hover:border-green-300 transition-colors">
                           <div className="flex items-start gap-3 mb-3">
@@ -324,11 +458,53 @@ const Index = () => {
                       ))}
                   </div>
                   
-                  {mockProjects.filter(p => p.stage === "Live" && p.timeFilter === timeFilter).length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      No live products found for {timeFilter.toLowerCase()}.
-                    </div>
-                  )}
+                  {(() => {
+                    const liveProjects = mockProjects.filter(p => 
+                      p.stage === "Live" && 
+                      p.timeFilter === timeFilter &&
+                      (selectedCategory === "All" || p.category === selectedCategory) &&
+                      (p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       p.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                    );
+                    
+                    if (liveProjects.length === 0) {
+                      return (
+                        <div className="text-center py-8 text-muted-foreground">
+                          No live products found for {timeFilter.toLowerCase()}.
+                        </div>
+                      );
+                    }
+                    
+                    if (liveProjects.length > 6 && !showMoreLive) {
+                      return (
+                        <div className="text-center mt-6">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => setShowMoreLive(true)}
+                            className="text-green-600 border-green-300 hover:bg-green-50"
+                          >
+                            View More ({liveProjects.length - 6} more)
+                          </Button>
+                        </div>
+                      );
+                    }
+                    
+                    if (showMoreLive && liveProjects.length > 6) {
+                      return (
+                        <div className="text-center mt-6">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => setShowMoreLive(false)}
+                            className="text-green-600 border-green-300 hover:bg-green-50"
+                          >
+                            Show Less
+                          </Button>
+                        </div>
+                      );
+                    }
+                    
+                    return null;
+                  })()}
                 </div>
 
                 {/* Testing Versions Section */}
@@ -350,6 +526,7 @@ const Index = () => {
                          project.description.toLowerCase().includes(searchTerm.toLowerCase()))
                       )
                       .sort((a, b) => b.votes - a.votes)
+                      .slice(0, showMoreTesting ? undefined : 6)
                       .map((project, index) => (
                         <div key={project.id} className="p-4 bg-card rounded-lg border border-blue-200 hover:border-blue-300 transition-colors">
                           <div className="flex items-start gap-3 mb-3">
@@ -407,11 +584,53 @@ const Index = () => {
                       ))}
                   </div>
                   
-                  {mockProjects.filter(p => (p.stage === "Alpha" || p.stage === "Beta") && p.timeFilter === timeFilter).length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      No testing versions found for {timeFilter.toLowerCase()}.
-                    </div>
-                  )}
+                  {(() => {
+                    const testingProjects = mockProjects.filter(p => 
+                      (p.stage === "Alpha" || p.stage === "Beta") && 
+                      p.timeFilter === timeFilter &&
+                      (selectedCategory === "All" || p.category === selectedCategory) &&
+                      (p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       p.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                    );
+                    
+                    if (testingProjects.length === 0) {
+                      return (
+                        <div className="text-center py-8 text-muted-foreground">
+                          No testing versions found for {timeFilter.toLowerCase()}.
+                        </div>
+                      );
+                    }
+                    
+                    if (testingProjects.length > 6 && !showMoreTesting) {
+                      return (
+                        <div className="text-center mt-6">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => setShowMoreTesting(true)}
+                            className="text-blue-600 border-blue-300 hover:bg-blue-50"
+                          >
+                            View More ({testingProjects.length - 6} more)
+                          </Button>
+                        </div>
+                      );
+                    }
+                    
+                    if (showMoreTesting && testingProjects.length > 6) {
+                      return (
+                        <div className="text-center mt-6">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => setShowMoreTesting(false)}
+                            className="text-blue-600 border-blue-300 hover:bg-blue-50"
+                          >
+                            Show Less
+                          </Button>
+                        </div>
+                      );
+                    }
+                    
+                    return null;
+                  })()}
                 </div>
 
                 {/* Inspiration Pool Section */}
@@ -433,6 +652,7 @@ const Index = () => {
                          project.description.toLowerCase().includes(searchTerm.toLowerCase()))
                       )
                       .sort((a, b) => b.votes - a.votes)
+                      .slice(0, showMoreIdeas ? undefined : 6)
                       .map((project, index) => (
                         <div key={project.id} className="p-4 bg-card rounded-lg border border-purple-200 hover:border-purple-300 transition-colors">
                           <div className="flex items-start gap-3 mb-3">
@@ -490,11 +710,53 @@ const Index = () => {
                       ))}
                   </div>
                   
-                  {mockProjects.filter(p => p.stage === "Idea" && p.timeFilter === timeFilter).length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      No ideas found for {timeFilter.toLowerCase()}.
-                    </div>
-                  )}
+                  {(() => {
+                    const ideaProjects = mockProjects.filter(p => 
+                      p.stage === "Idea" && 
+                      p.timeFilter === timeFilter &&
+                      (selectedCategory === "All" || p.category === selectedCategory) &&
+                      (p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       p.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                    );
+                    
+                    if (ideaProjects.length === 0) {
+                      return (
+                        <div className="text-center py-8 text-muted-foreground">
+                          No ideas found for {timeFilter.toLowerCase()}.
+                        </div>
+                      );
+                    }
+                    
+                    if (ideaProjects.length > 6 && !showMoreIdeas) {
+                      return (
+                        <div className="text-center mt-6">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => setShowMoreIdeas(true)}
+                            className="text-purple-600 border-purple-300 hover:bg-purple-50"
+                          >
+                            View More ({ideaProjects.length - 6} more)
+                          </Button>
+                        </div>
+                      );
+                    }
+                    
+                    if (showMoreIdeas && ideaProjects.length > 6) {
+                      return (
+                        <div className="text-center mt-6">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => setShowMoreIdeas(false)}
+                            className="text-purple-600 border-purple-300 hover:bg-purple-50"
+                          >
+                            Show Less
+                          </Button>
+                        </div>
+                      );
+                    }
+                    
+                    return null;
+                  })()}
                 </div>
 
                 {/* Category Filter */}
