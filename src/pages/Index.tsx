@@ -247,123 +247,276 @@ const Index = () => {
             </TabsList>
             
             {timeFilters.map((timeFilter) => (
-              <TabsContent key={timeFilter} value={timeFilter} className="mt-8">
-                {/* Category Tabs */}
-                <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <TabsList className="grid w-full grid-cols-6 lg:grid-cols-11 mb-8">
-                    {categories.map((category) => (
-                      <TabsTrigger 
-                        key={category} 
-                        value={category}
-                        className="text-xs px-2 py-2"
-                      >
-                        {category === "NFT & Creator Economy" ? "NFT" : 
-                         category === "Gaming & Metaverse" ? "Gaming" :
-                         category === "DAO & Community" ? "DAO" :
-                         category === "Consumer Applications" ? "Consumer" :
-                         category === "Privacy & Security" ? "Privacy" :
-                         category === "Data & Analytics" ? "Data" :
-                         category}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
+              <TabsContent key={timeFilter} value={timeFilter} className="mt-8 space-y-12">
+                {/* Live Products Section */}
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-green-600">🚀 Live Products</h2>
+                    <div className="text-sm text-muted-foreground">
+                      {mockProjects.filter(p => p.stage === "Live" && p.timeFilter === timeFilter).length} products
+                    </div>
+                  </div>
                   
-                  {categories.map((category) => (
-                    <TabsContent key={category} value={category}>
-                      {/* Stage Filter */}
-                      <div className="flex gap-2 mb-6">
-                        {stages.map((stage) => (
-                          <Button
-                            key={stage}
-                            variant={selectedStage === stage ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedStage(stage)}
-                            className="text-xs"
-                          >
-                            {stage}
-                          </Button>
-                        ))}
-                      </div>
-                      
-                      {/* Projects Display */}
-                      <div className="space-y-6">
-                        <div className="flex items-center justify-between">
-                          <h1 className="text-2xl font-bold">
-                            {category === "All" ? "All Categories" : category} - {timeFilter}
-                          </h1>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Filter className="h-4 w-4" />
-                            {filteredProjects.length} results
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {mockProjects
+                      .filter(project => 
+                        project.stage === "Live" && 
+                        project.timeFilter === timeFilter &&
+                        (selectedCategory === "All" || project.category === selectedCategory) &&
+                        (project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                      )
+                      .sort((a, b) => b.votes - a.votes)
+                      .map((project, index) => (
+                        <div key={project.id} className="p-4 bg-card rounded-lg border border-green-200 hover:border-green-300 transition-colors">
+                          <div className="flex items-start gap-3 mb-3">
+                            <span className="text-sm font-bold text-green-600">
+                              #{index + 1}
+                            </span>
+                            <img 
+                              src={project.image} 
+                              alt={project.name}
+                              className="w-10 h-10 rounded-lg object-cover"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <Link to={`/project/${project.id}`}>
+                                <h3 className="font-semibold hover:text-primary transition-colors mb-1">
+                                  {project.name}
+                                </h3>
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-                        
-                        {filteredProjects.length > 0 ? (
-                          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {filteredProjects.map((project, index) => (
-                              <div key={project.id} className="p-4 bg-card rounded-lg border border-border hover:border-border/80 transition-colors">
-                                <div className="flex items-start gap-3 mb-3">
-                                  <span className="text-sm font-medium text-muted-foreground">
-                                    #{index + 1}
-                                  </span>
-                                  <img 
-                                    src={project.image} 
-                                    alt={project.name}
-                                    className="w-10 h-10 rounded-lg object-cover"
-                                  />
-                                  <div className="flex-1 min-w-0">
-                                    <Link to={`/project/${project.id}`}>
-                                      <h3 className="font-semibold hover:text-primary transition-colors mb-1">
-                                        {project.name}
-                                      </h3>
-                                    </Link>
-                                  </div>
-                                </div>
-                                
-                                <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                                  {project.description}
-                                </p>
-                                
-                                <div className="flex flex-wrap gap-1 mb-4">
-                                  <Badge variant="outline" className="text-xs">
-                                    {project.category}
-                                  </Badge>
-                                  <Badge variant="secondary" className="text-xs">
-                                    {project.stage}
-                                  </Badge>
-                                  {project.tags.slice(0, 2).map((tag) => (
-                                    <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
-                                      {tag}
-                                    </Badge>
-                                  ))}
-                                </div>
-                                
-                                <div className="flex items-center justify-between">
-                                  <Button variant="ghost" size="sm" className="text-muted-foreground h-auto p-0">
-                                    <MessageCircle className="h-3 w-3 mr-1" />
-                                    {project.comments}
-                                  </Button>
-                                  <Button 
-                                    variant="ghost" 
-                                    size="sm" 
-                                    onClick={() => handleVote(project.id)}
-                                    className="flex items-center gap-1 h-auto p-0 hover:text-primary"
-                                  >
-                                    <ArrowUp className="h-3 w-3" />
-                                    <span className="text-sm font-medium">{project.votes}</span>
-                                  </Button>
-                                </div>
-                              </div>
+                          
+                          <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                            {project.description}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-1 mb-4">
+                            <Badge variant="outline" className="text-xs border-green-300 text-green-700">
+                              {project.category}
+                            </Badge>
+                            <Badge className="text-xs bg-green-100 text-green-800 hover:bg-green-200">
+                              Live
+                            </Badge>
+                            {project.tags.slice(0, 2).map((tag) => (
+                              <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
+                                {tag}
+                              </Badge>
                             ))}
                           </div>
-                        ) : (
-                          <div className="text-center py-12">
-                            <p className="text-muted-foreground">No projects found for the selected filters.</p>
+                          
+                          <div className="flex items-center justify-between">
+                            <Button variant="ghost" size="sm" className="text-muted-foreground h-auto p-0">
+                              <MessageCircle className="h-3 w-3 mr-1" />
+                              {project.comments}
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => handleVote(project.id)}
+                              className="flex items-center gap-1 h-auto p-0 hover:text-primary"
+                            >
+                              <ArrowUp className="h-3 w-3" />
+                              <span className="text-sm font-medium">{project.votes}</span>
+                            </Button>
                           </div>
-                        )}
-                      </div>
-                    </TabsContent>
+                        </div>
+                      ))}
+                  </div>
+                  
+                  {mockProjects.filter(p => p.stage === "Live" && p.timeFilter === timeFilter).length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No live products found for {timeFilter.toLowerCase()}.
+                    </div>
+                  )}
+                </div>
+
+                {/* Testing Versions Section */}
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-blue-600">🧪 Testing Versions</h2>
+                    <div className="text-sm text-muted-foreground">
+                      {mockProjects.filter(p => (p.stage === "Alpha" || p.stage === "Beta") && p.timeFilter === timeFilter).length} products
+                    </div>
+                  </div>
+                  
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {mockProjects
+                      .filter(project => 
+                        (project.stage === "Alpha" || project.stage === "Beta") && 
+                        project.timeFilter === timeFilter &&
+                        (selectedCategory === "All" || project.category === selectedCategory) &&
+                        (project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                      )
+                      .sort((a, b) => b.votes - a.votes)
+                      .map((project, index) => (
+                        <div key={project.id} className="p-4 bg-card rounded-lg border border-blue-200 hover:border-blue-300 transition-colors">
+                          <div className="flex items-start gap-3 mb-3">
+                            <span className="text-sm font-bold text-blue-600">
+                              #{index + 1}
+                            </span>
+                            <img 
+                              src={project.image} 
+                              alt={project.name}
+                              className="w-10 h-10 rounded-lg object-cover"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <Link to={`/project/${project.id}`}>
+                                <h3 className="font-semibold hover:text-primary transition-colors mb-1">
+                                  {project.name}
+                                </h3>
+                              </Link>
+                            </div>
+                          </div>
+                          
+                          <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                            {project.description}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-1 mb-4">
+                            <Badge variant="outline" className="text-xs border-blue-300 text-blue-700">
+                              {project.category}
+                            </Badge>
+                            <Badge className={`text-xs ${project.stage === "Alpha" ? "bg-blue-100 text-blue-800 hover:bg-blue-200" : "bg-blue-200 text-blue-900 hover:bg-blue-300"}`}>
+                              {project.stage}
+                            </Badge>
+                            {project.tags.slice(0, 2).map((tag) => (
+                              <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                          
+                          <div className="flex items-center justify-between">
+                            <Button variant="ghost" size="sm" className="text-muted-foreground h-auto p-0">
+                              <MessageCircle className="h-3 w-3 mr-1" />
+                              {project.comments}
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => handleVote(project.id)}
+                              className="flex items-center gap-1 h-auto p-0 hover:text-primary"
+                            >
+                              <ArrowUp className="h-3 w-3" />
+                              <span className="text-sm font-medium">{project.votes}</span>
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                  
+                  {mockProjects.filter(p => (p.stage === "Alpha" || p.stage === "Beta") && p.timeFilter === timeFilter).length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No testing versions found for {timeFilter.toLowerCase()}.
+                    </div>
+                  )}
+                </div>
+
+                {/* Inspiration Pool Section */}
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-purple-600">💡 Inspiration Pool</h2>
+                    <div className="text-sm text-muted-foreground">
+                      {mockProjects.filter(p => p.stage === "Idea" && p.timeFilter === timeFilter).length} ideas
+                    </div>
+                  </div>
+                  
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {mockProjects
+                      .filter(project => 
+                        project.stage === "Idea" && 
+                        project.timeFilter === timeFilter &&
+                        (selectedCategory === "All" || project.category === selectedCategory) &&
+                        (project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                      )
+                      .sort((a, b) => b.votes - a.votes)
+                      .map((project, index) => (
+                        <div key={project.id} className="p-4 bg-card rounded-lg border border-purple-200 hover:border-purple-300 transition-colors">
+                          <div className="flex items-start gap-3 mb-3">
+                            <span className="text-sm font-bold text-purple-600">
+                              #{index + 1}
+                            </span>
+                            <img 
+                              src={project.image} 
+                              alt={project.name}
+                              className="w-10 h-10 rounded-lg object-cover"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <Link to={`/project/${project.id}`}>
+                                <h3 className="font-semibold hover:text-primary transition-colors mb-1">
+                                  {project.name}
+                                </h3>
+                              </Link>
+                            </div>
+                          </div>
+                          
+                          <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                            {project.description}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-1 mb-4">
+                            <Badge variant="outline" className="text-xs border-purple-300 text-purple-700">
+                              {project.category}
+                            </Badge>
+                            <Badge className="text-xs bg-purple-100 text-purple-800 hover:bg-purple-200">
+                              Idea
+                            </Badge>
+                            {project.tags.slice(0, 2).map((tag) => (
+                              <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                          
+                          <div className="flex items-center justify-between">
+                            <Button variant="ghost" size="sm" className="text-muted-foreground h-auto p-0">
+                              <MessageCircle className="h-3 w-3 mr-1" />
+                              {project.comments}
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => handleVote(project.id)}
+                              className="flex items-center gap-1 h-auto p-0 hover:text-primary"
+                            >
+                              <ArrowUp className="h-3 w-3" />
+                              <span className="text-sm font-medium">{project.votes}</span>
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                  
+                  {mockProjects.filter(p => p.stage === "Idea" && p.timeFilter === timeFilter).length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No ideas found for {timeFilter.toLowerCase()}.
+                    </div>
+                  )}
+                </div>
+
+                {/* Category Filter */}
+                <div className="flex gap-2 flex-wrap justify-center pt-8 border-t">
+                  {categories.map((category) => (
+                    <Button
+                      key={category}
+                      variant={selectedCategory === category ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setSelectedCategory(category)}
+                      className="text-xs"
+                    >
+                      {category === "NFT & Creator Economy" ? "NFT" : 
+                       category === "Gaming & Metaverse" ? "Gaming" :
+                       category === "DAO & Community" ? "DAO" :
+                       category === "Consumer Applications" ? "Consumer" :
+                       category === "Privacy & Security" ? "Privacy" :
+                       category === "Data & Analytics" ? "Data" :
+                       category}
+                    </Button>
                   ))}
-                </Tabs>
+                </div>
               </TabsContent>
             ))}
           </Tabs>
