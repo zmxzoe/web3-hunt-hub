@@ -133,37 +133,6 @@ const mockProjects = [
   }
 ];
 
-// Mock forum threads
-const forumThreads = [
-  {
-    id: 1,
-    author: "p/orbstack",
-    title: "orbstack > docker desktop",
-    upvotes: 0,
-    comments: 0
-  },
-  {
-    id: 2,
-    author: "p/claude",
-    title: "What's the weirdest thing you've asked AI to do? Examples welcome 🤖",
-    upvotes: 10,
-    comments: 3
-  },
-  {
-    id: 3,
-    author: "p/appreply",
-    title: "NEW: Auto-Translate app reviews in 100+ languages",
-    upvotes: 1,
-    comments: 0
-  },
-  {
-    id: 4,
-    author: "p/crowd-3",
-    title: "Quick reminder that we have an affiliate program (and it's actually pretty good)",
-    upvotes: 0,
-    comments: 0
-  }
-];
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -265,196 +234,231 @@ const Index = () => {
           </div>
         )}
 
-        <div className="flex gap-8">
-          {/* Main Content */}
-          <div className="flex-1">
-            {/* Filters */}
-            <div className="mb-6">
-              <Tabs value={selectedTimeFilter} onValueChange={setSelectedTimeFilter} className="mb-4">
-                <TabsList className="grid w-full grid-cols-4">
-                  {timeFilters.map((timeFilter) => (
-                    <TabsTrigger key={timeFilter} value={timeFilter}>
-                      {timeFilter}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
+        {/* Main Content - Full Width */}
+        <div className="w-full">
+          {/* Filters */}
+          <div className="mb-8">
+            <Tabs value={selectedTimeFilter} onValueChange={setSelectedTimeFilter} className="mb-6">
+              <TabsList className="grid w-full grid-cols-4">
+                {timeFilters.map((timeFilter) => (
+                  <TabsTrigger key={timeFilter} value={timeFilter}>
+                    {timeFilter}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
 
-              <div className="flex gap-4 mb-4">
-                <div className="flex-1">
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="flex-1">
-                  <Select value={selectedStage} onValueChange={setSelectedStage}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select stage" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {stages.map((stage) => (
-                        <SelectItem key={stage} value={stage}>
-                          {stage}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+            <div className="flex gap-4 mb-6">
+              <div className="flex-1">
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-            </div>
-
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold">
-                Top {selectedCategory !== "All" ? selectedCategory : "Web3"} Products - {selectedTimeFilter}
-              </h1>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Filter className="h-4 w-4" />
-                {filteredProjects.length} results
+              
+              <div className="flex-1">
+                <Select value={selectedStage} onValueChange={setSelectedStage}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select stage" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {stages.map((stage) => (
+                      <SelectItem key={stage} value={stage}>
+                        {stage}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-            </div>
-            
-            {/* Products List */}
-            <div className="space-y-4">
-              {filteredProjects.length > 0 ? (
-                filteredProjects.map((project, index) => (
-                  <div key={project.id} className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border hover:border-border/80 transition-colors">
-                    {/* Left: Rank and Logo */}
-                    <div className="flex items-center gap-3 min-w-[80px]">
-                      <span className="text-lg font-medium text-muted-foreground w-6">
-                        {index + 1}.
-                      </span>
-                      <img 
-                        src={project.image} 
-                        alt={project.name}
-                        className="w-10 h-10 rounded-lg object-cover"
-                      />
-                    </div>
-                    
-                    {/* Middle: Content */}
-                    <div className="flex-1">
-                      <Link to={`/project/${project.id}`}>
-                        <h3 className="font-semibold text-lg hover:text-primary transition-colors mb-1">
-                          {project.name}
-                        </h3>
-                      </Link>
-                      <p className="text-muted-foreground text-sm mb-2">
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        <Badge variant="outline" className="text-xs">
-                          {project.category}
-                        </Badge>
-                        <Badge variant="secondary" className="text-xs">
-                          {project.stage}
-                        </Badge>
-                        {project.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Right: Stats */}
-                    <div className="flex items-center gap-4 min-w-[120px] justify-end">
-                      <Button variant="ghost" size="sm" className="text-muted-foreground">
-                        <MessageCircle className="h-4 w-4 mr-1" />
-                        {project.comments}
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => handleVote(project.id)}
-                        className="flex flex-col items-center gap-1 h-auto py-2 px-3 hover:bg-accent"
-                      >
-                        <ArrowUp className="h-4 w-4" />
-                        <span className="text-sm font-medium">{project.votes}</span>
-                      </Button>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground">No projects found for the selected filters.</p>
-                </div>
-              )}
-            </div>
-
-            {/* Submit Project Button */}
-            <div className="mt-8">
-              <Link to="/submit">
-                <Button variant="outline" className="w-full py-6 text-base">
-                  <Plus className="h-5 w-5 mr-2" />
-                  Submit your product
-                </Button>
-              </Link>
             </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="w-80 space-y-6">
-            {/* Trending Forum Threads */}
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold">Trending Forum Threads</h2>
-                <Button variant="ghost" size="sm" className="text-primary">
-                  View all
-                </Button>
-              </div>
-              
-              <div className="space-y-3">
-                {forumThreads.map((thread) => (
-                  <div key={thread.id} className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-primary rounded-sm flex items-center justify-center">
-                        <span className="text-xs text-primary-foreground font-bold">
-                          {thread.author.split('/')[1][0].toUpperCase()}
-                        </span>
-                      </div>
-                      <span className="text-xs text-primary font-medium">{thread.author}</span>
+          {/* Category Sections */}
+          {selectedCategory === "All" ? (
+            <div className="grid gap-8">
+              {categories.slice(1).map((category) => {
+                const categoryProjects = mockProjects
+                  .filter(project => 
+                    project.category === category && 
+                    project.timeFilter === selectedTimeFilter &&
+                    (selectedStage === "All" || project.stage === selectedStage) &&
+                    (project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                     project.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                  )
+                  .sort((a, b) => b.votes - a.votes)
+                  .slice(0, 3); // Show top 3 per category
+
+                if (categoryProjects.length === 0) return null;
+
+                return (
+                  <div key={category} className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-xl font-bold">{category}</h2>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => setSelectedCategory(category)}
+                        className="text-primary"
+                      >
+                        View all →
+                      </Button>
                     </div>
                     
-                    <h4 className="text-sm font-medium leading-tight">
-                      {thread.title}
-                    </h4>
-                    
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <Button variant="ghost" size="sm" className="h-auto p-0 text-xs">
-                        <ArrowUp className="h-3 w-3 mr-1" />
-                        Upvote {thread.upvotes > 0 && `(${thread.upvotes})`}
-                      </Button>
-                      <span>{thread.comments} comments</span>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                      {categoryProjects.map((project, index) => (
+                        <div key={project.id} className="p-4 bg-card rounded-lg border border-border hover:border-border/80 transition-colors">
+                          <div className="flex items-start gap-3 mb-3">
+                            <span className="text-sm font-medium text-muted-foreground">
+                              #{index + 1}
+                            </span>
+                            <img 
+                              src={project.image} 
+                              alt={project.name}
+                              className="w-8 h-8 rounded-lg object-cover"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <Link to={`/project/${project.id}`}>
+                                <h3 className="font-semibold hover:text-primary transition-colors truncate">
+                                  {project.name}
+                                </h3>
+                              </Link>
+                            </div>
+                          </div>
+                          
+                          <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                            {project.description}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            <Badge variant="outline" className="text-xs">
+                              {project.stage}
+                            </Badge>
+                            {project.tags.slice(0, 2).map((tag) => (
+                              <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                          
+                          <div className="flex items-center justify-between">
+                            <Button variant="ghost" size="sm" className="text-muted-foreground h-auto p-0">
+                              <MessageCircle className="h-3 w-3 mr-1" />
+                              {project.comments}
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => handleVote(project.id)}
+                              className="flex items-center gap-1 h-auto p-0 hover:text-primary"
+                            >
+                              <ArrowUp className="h-3 w-3" />
+                              <span className="text-sm font-medium">{project.votes}</span>
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                ))}
+                );
+              })}
+            </div>
+          ) : (
+            // Single Category View
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold">
+                  {selectedCategory} Projects - {selectedTimeFilter}
+                </h1>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Filter className="h-4 w-4" />
+                  {filteredProjects.length} results
+                </div>
               </div>
               
-              <Button variant="outline" size="sm" className="w-full mt-4">
-                <Plus className="h-4 w-4 mr-2" />
-                Start new thread
-              </Button>
+              <div className="space-y-4">
+                {filteredProjects.length > 0 ? (
+                  filteredProjects.map((project, index) => (
+                    <div key={project.id} className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border hover:border-border/80 transition-colors">
+                      {/* Left: Rank and Logo */}
+                      <div className="flex items-center gap-3 min-w-[80px]">
+                        <span className="text-lg font-medium text-muted-foreground w-6">
+                          {index + 1}.
+                        </span>
+                        <img 
+                          src={project.image} 
+                          alt={project.name}
+                          className="w-10 h-10 rounded-lg object-cover"
+                        />
+                      </div>
+                      
+                      {/* Middle: Content */}
+                      <div className="flex-1">
+                        <Link to={`/project/${project.id}`}>
+                          <h3 className="font-semibold text-lg hover:text-primary transition-colors mb-1">
+                            {project.name}
+                          </h3>
+                        </Link>
+                        <p className="text-muted-foreground text-sm mb-2">
+                          {project.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          <Badge variant="outline" className="text-xs">
+                            {project.category}
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            {project.stage}
+                          </Badge>
+                          {project.tags.map((tag) => (
+                            <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Right: Stats */}
+                      <div className="flex items-center gap-4 min-w-[120px] justify-end">
+                        <Button variant="ghost" size="sm" className="text-muted-foreground">
+                          <MessageCircle className="h-4 w-4 mr-1" />
+                          {project.comments}
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleVote(project.id)}
+                          className="flex flex-col items-center gap-1 h-auto py-2 px-3 hover:bg-accent"
+                        >
+                          <ArrowUp className="h-4 w-4" />
+                          <span className="text-sm font-medium">{project.votes}</span>
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground">No projects found for the selected filters.</p>
+                  </div>
+                )}
+              </div>
             </div>
+          )}
 
-            {/* Ad Space */}
-            <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg p-6 text-white">
-              <h3 className="font-bold text-lg mb-2">Airtable</h3>
-              <p className="text-sm opacity-90 mb-4">
-                6 predictions for product teams in 2025
-              </p>
-              <Button variant="secondary" size="sm" className="bg-white text-black hover:bg-gray-100">
-                Learn more
+          {/* Submit Project Button */}
+          <div className="mt-12">
+            <Link to="/submit">
+              <Button variant="outline" className="w-full py-6 text-base">
+                <Plus className="h-5 w-5 mr-2" />
+                Submit your product
               </Button>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
