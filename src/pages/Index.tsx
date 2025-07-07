@@ -369,6 +369,27 @@ const Index = () => {
 
         {/* Main Content - Full Width */}
         <div className="w-full">
+          {/* Category Filter - Top Level */}
+          <div className="flex gap-2 flex-wrap justify-center mb-8 p-4 bg-muted/30 rounded-lg">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className="text-xs"
+              >
+                {category === "NFT & Creator Economy" ? "NFT" : 
+                 category === "Gaming & Metaverse" ? "Gaming" :
+                 category === "DAO & Community" ? "DAO" :
+                 category === "Consumer Applications" ? "Consumer" :
+                 category === "Privacy & Security" ? "Privacy" :
+                 category === "Data & Analytics" ? "Data" :
+                 category}
+              </Button>
+            ))}
+          </div>
+
           {/* Time Filter Tabs */}
           <Tabs value={selectedTimeFilter} onValueChange={setSelectedTimeFilter} className="mb-8">
             <TabsList className="grid w-full grid-cols-4">
@@ -759,26 +780,6 @@ const Index = () => {
                   })()}
                 </div>
 
-                {/* Category Filter */}
-                <div className="flex gap-2 flex-wrap justify-center pt-8 border-t">
-                  {categories.map((category) => (
-                    <Button
-                      key={category}
-                      variant={selectedCategory === category ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setSelectedCategory(category)}
-                      className="text-xs"
-                    >
-                      {category === "NFT & Creator Economy" ? "NFT" : 
-                       category === "Gaming & Metaverse" ? "Gaming" :
-                       category === "DAO & Community" ? "DAO" :
-                       category === "Consumer Applications" ? "Consumer" :
-                       category === "Privacy & Security" ? "Privacy" :
-                       category === "Data & Analytics" ? "Data" :
-                       category}
-                    </Button>
-                  ))}
-                </div>
               </TabsContent>
             ))}
           </Tabs>
