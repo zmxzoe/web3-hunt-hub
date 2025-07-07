@@ -2,8 +2,28 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Plus, Search, MessageCircle, X, Bell } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ArrowUp, Plus, Search, MessageCircle, X, Bell, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
+
+// Web3 Project Categories
+const categories = [
+  "All",
+  "Infrastructure", 
+  "DeFi",
+  "NFT & Creator Economy",
+  "AI x Web3",
+  "Gaming & Metaverse", 
+  "DAO & Community",
+  "Developer Tools",
+  "Consumer Applications",
+  "Privacy & Security",
+  "Data & Analytics"
+];
+
+const stages = ["All", "Idea", "Alpha", "Beta", "Live"];
+const timeFilters = ["Today", "Yesterday", "This Week", "Last Week"];
 
 // Mock data for projects
 const mockProjects = [
@@ -15,41 +35,49 @@ const mockProjects = [
     comments: 37,
     tags: ["Developer Tools", "Artificial Intelligence", "GitHub"],
     image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=64&h=64&fit=crop",
-    category: "AI",
-    isToday: true
+    category: "AI x Web3",
+    stage: "Beta",
+    createdAt: new Date(),
+    timeFilter: "Today"
   },
   {
     id: 2,
-    name: "Lazy 2.0",
+    name: "Lazy 2.0", 
     description: "One shortcut to capture & chat with your notes, everywhere",
     votes: 298,
     comments: 16,
     tags: ["Productivity", "Notes", "Artificial Intelligence"],
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=64&h=64&fit=crop",
-    category: "Productivity",
-    isToday: true
+    category: "Consumer Applications",
+    stage: "Live",
+    createdAt: new Date(Date.now() - 86400000), // Yesterday
+    timeFilter: "Yesterday"
   },
   {
     id: 3,
     name: "String.com",
-    description: "AI agent for building AI agents",
+    description: "AI agent for building AI agents", 
     votes: 249,
     comments: 21,
     tags: ["Productivity", "Developer Tools", "Artificial Intelligence"],
     image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=64&h=64&fit=crop",
-    category: "AI",
-    isToday: true
+    category: "Developer Tools",
+    stage: "Alpha",
+    createdAt: new Date(),
+    timeFilter: "Today"
   },
   {
     id: 4,
-    name: "Nothing Phone (3)",
-    description: "Beyond lights, with the new Glyph Matrix",
+    name: "DeFi Swap Protocol",
+    description: "Next-generation decentralized exchange with advanced features",
     votes: 217,
     comments: 14,
-    tags: ["Hardware", "UX Design"],
+    tags: ["DeFi", "DEX", "Protocol"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop",
-    category: "Hardware",
-    isToday: true
+    category: "DeFi",
+    stage: "Beta",
+    createdAt: new Date(Date.now() - 172800000), // 2 days ago
+    timeFilter: "This Week"
   },
   {
     id: 5,
@@ -59,8 +87,49 @@ const mockProjects = [
     comments: 22,
     tags: ["Metaverse", "No-code", "VR/AR"],
     image: "https://images.unsplash.com/photo-1592478411213-6153e4ebc696?w=64&h=64&fit=crop",
-    category: "Metaverse",
-    isToday: true
+    category: "Gaming & Metaverse",
+    stage: "Live",
+    createdAt: new Date(),
+    timeFilter: "Today"
+  },
+  {
+    id: 6,
+    name: "CryptoNFT Marketplace",
+    description: "Decentralized marketplace for digital art and collectibles",
+    votes: 156,
+    comments: 18,
+    tags: ["NFT", "Marketplace", "Art"],
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=64&h=64&fit=crop",
+    category: "NFT & Creator Economy",
+    stage: "Live",
+    createdAt: new Date(Date.now() - 259200000), // 3 days ago
+    timeFilter: "This Week"
+  },
+  {
+    id: 7,
+    name: "DAO Governance Hub",
+    description: "Comprehensive platform for decentralized organization management",
+    votes: 134,
+    comments: 12,
+    tags: ["DAO", "Governance", "Management"],
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=64&h=64&fit=crop",
+    category: "DAO & Community",
+    stage: "Alpha",
+    createdAt: new Date(Date.now() - 86400000), // Yesterday
+    timeFilter: "Yesterday"
+  },
+  {
+    id: 8,
+    name: "Privacy Shield",
+    description: "Advanced privacy protection for Web3 transactions",
+    votes: 112,
+    comments: 8,
+    tags: ["Privacy", "Security", "Protection"],
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=64&h=64&fit=crop",
+    category: "Privacy & Security",
+    stage: "Idea",
+    createdAt: new Date(),
+    timeFilter: "Today"
   }
 ];
 
@@ -99,10 +168,24 @@ const forumThreads = [
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showWelcome, setShowWelcome] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedStage, setSelectedStage] = useState("All");
+  const [selectedTimeFilter, setSelectedTimeFilter] = useState("Today");
 
   const handleVote = (projectId: number) => {
     console.log(`Voted for project ${projectId}`);
   };
+
+  // Filter projects based on selected filters
+  const filteredProjects = mockProjects.filter(project => {
+    const matchesCategory = selectedCategory === "All" || project.category === selectedCategory;
+    const matchesStage = selectedStage === "All" || project.stage === selectedStage;
+    const matchesTime = project.timeFilter === selectedTimeFilter;
+    const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    return matchesCategory && matchesStage && matchesTime && matchesSearch;
+  }).sort((a, b) => b.votes - a.votes); // Sort by votes descending
 
   return (
     <div className="min-h-screen bg-background">
@@ -185,61 +268,126 @@ const Index = () => {
         <div className="flex gap-8">
           {/* Main Content */}
           <div className="flex-1">
-            <h1 className="text-2xl font-bold mb-6">Top Products Launching Today</h1>
+            {/* Filters */}
+            <div className="mb-6">
+              <Tabs value={selectedTimeFilter} onValueChange={setSelectedTimeFilter} className="mb-4">
+                <TabsList className="grid w-full grid-cols-4">
+                  {timeFilters.map((timeFilter) => (
+                    <TabsTrigger key={timeFilter} value={timeFilter}>
+                      {timeFilter}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+
+              <div className="flex gap-4 mb-4">
+                <div className="flex-1">
+                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex-1">
+                  <Select value={selectedStage} onValueChange={setSelectedStage}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select stage" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {stages.map((stage) => (
+                        <SelectItem key={stage} value={stage}>
+                          {stage}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between mb-6">
+              <h1 className="text-2xl font-bold">
+                Top {selectedCategory !== "All" ? selectedCategory : "Web3"} Products - {selectedTimeFilter}
+              </h1>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Filter className="h-4 w-4" />
+                {filteredProjects.length} results
+              </div>
+            </div>
             
             {/* Products List */}
             <div className="space-y-4">
-              {mockProjects.map((project, index) => (
-                <div key={project.id} className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border hover:border-border/80 transition-colors">
-                  {/* Left: Rank and Logo */}
-                  <div className="flex items-center gap-3 min-w-[80px]">
-                    <span className="text-lg font-medium text-muted-foreground w-6">
-                      {index + 1}.
-                    </span>
-                    <img 
-                      src={project.image} 
-                      alt={project.name}
-                      className="w-10 h-10 rounded-lg object-cover"
-                    />
-                  </div>
-                  
-                  {/* Middle: Content */}
-                  <div className="flex-1">
-                    <Link to={`/project/${project.id}`}>
-                      <h3 className="font-semibold text-lg hover:text-primary transition-colors mb-1">
-                        {project.name}
-                      </h3>
-                    </Link>
-                    <p className="text-muted-foreground text-sm mb-2">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
-                          {tag}
+              {filteredProjects.length > 0 ? (
+                filteredProjects.map((project, index) => (
+                  <div key={project.id} className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border hover:border-border/80 transition-colors">
+                    {/* Left: Rank and Logo */}
+                    <div className="flex items-center gap-3 min-w-[80px]">
+                      <span className="text-lg font-medium text-muted-foreground w-6">
+                        {index + 1}.
+                      </span>
+                      <img 
+                        src={project.image} 
+                        alt={project.name}
+                        className="w-10 h-10 rounded-lg object-cover"
+                      />
+                    </div>
+                    
+                    {/* Middle: Content */}
+                    <div className="flex-1">
+                      <Link to={`/project/${project.id}`}>
+                        <h3 className="font-semibold text-lg hover:text-primary transition-colors mb-1">
+                          {project.name}
+                        </h3>
+                      </Link>
+                      <p className="text-muted-foreground text-sm mb-2">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        <Badge variant="outline" className="text-xs">
+                          {project.category}
                         </Badge>
-                      ))}
+                        <Badge variant="secondary" className="text-xs">
+                          {project.stage}
+                        </Badge>
+                        {project.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="text-xs bg-muted/50">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Right: Stats */}
+                    <div className="flex items-center gap-4 min-w-[120px] justify-end">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground">
+                        <MessageCircle className="h-4 w-4 mr-1" />
+                        {project.comments}
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => handleVote(project.id)}
+                        className="flex flex-col items-center gap-1 h-auto py-2 px-3 hover:bg-accent"
+                      >
+                        <ArrowUp className="h-4 w-4" />
+                        <span className="text-sm font-medium">{project.votes}</span>
+                      </Button>
                     </div>
                   </div>
-                  
-                  {/* Right: Stats */}
-                  <div className="flex items-center gap-4 min-w-[120px] justify-end">
-                    <Button variant="ghost" size="sm" className="text-muted-foreground">
-                      <MessageCircle className="h-4 w-4 mr-1" />
-                      {project.comments}
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => handleVote(project.id)}
-                      className="flex flex-col items-center gap-1 h-auto py-2 px-3 hover:bg-accent"
-                    >
-                      <ArrowUp className="h-4 w-4" />
-                      <span className="text-sm font-medium">{project.votes}</span>
-                    </Button>
-                  </div>
+                ))
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">No projects found for the selected filters.</p>
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Submit Project Button */}
