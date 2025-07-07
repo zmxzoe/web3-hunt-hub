@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -277,6 +277,18 @@ const Index = () => {
   const handleVote = (projectId: number) => {
     console.log(`Voted for project ${projectId}`);
   };
+
+  // Reset show more states when filters change
+  const resetShowMore = () => {
+    setShowMoreLive(false);
+    setShowMoreTesting(false);
+    setShowMoreIdeas(false);
+  };
+
+  // Reset when category or time filter changes
+  useEffect(() => {
+    resetShowMore();
+  }, [selectedCategory, selectedTimeFilter]);
 
   // Filter projects based on selected filters
   const filteredProjects = mockProjects.filter(project => {
